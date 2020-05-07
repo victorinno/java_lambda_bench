@@ -39,13 +39,8 @@ import java.util.stream.Stream;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
-import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
-import org.openjdk.jmh.annotations.Param;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
-import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 
 @Fork(value = 1, warmups = 1)
@@ -53,14 +48,6 @@ import org.openjdk.jmh.annotations.Warmup;
 @Measurement(iterations = 3)
 @BenchmarkMode(Mode.All)
 public class MyBenchmark {
-
-    @State(Scope.Benchmark)
-    public class ExecutionPlan {
-
-        @Param({ "10", "100", "1000", "10000", "100000", "1000000" })
-        public long iterations;
-
-    }
 
     public static BinaryOperator<Integer> REDUCE = (a, b) -> a + b;
     public static Function<Integer, Integer> MAP = f -> f + 10;
