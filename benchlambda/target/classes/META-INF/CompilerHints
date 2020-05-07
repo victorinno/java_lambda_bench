@@ -1,9 +1,0 @@
-dontinline,*.*_all_jmhStub
-dontinline,*.*_avgt_jmhStub
-dontinline,*.*_sample_jmhStub
-dontinline,*.*_ss_jmhStub
-dontinline,*.*_thrpt_jmhStub
-inline,com/github/victorinno/benchlambda/MyBenchmark.testConstant
-inline,com/github/victorinno/benchlambda/MyBenchmark.testNormal
-inline,com/github/victorinno/benchlambda/MyBenchmark.testParameters
-inline,com/github/victorinno/benchlambda/MyBenchmark.testPureJava
