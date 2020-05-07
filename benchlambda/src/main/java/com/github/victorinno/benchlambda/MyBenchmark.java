@@ -31,14 +31,66 @@
 
 package com.github.victorinno.benchlambda;
 
-import org.openjdk.jmh.annotations.Benchmark;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Fork;
+import org.openjdk.jmh.annotations.Level;
+import org.openjdk.jmh.annotations.Measurement;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.Param;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Setup;
+import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Warmup;
+
+@Fork(value = 1, warmups = 1)
+@Warmup(iterations = 2)
+@Measurement(iterations = 3)
+@BenchmarkMode(Mode.All)
 public class MyBenchmark {
 
-    @Benchmark
-    public void testMethod() {
-        // This is a demo/sample template for building your JMH benchmarks. Edit as needed.
-        // Put your benchmark code here.
+    @State(Scope.Benchmark)
+    public class ExecutionPlan {
+
+        @Param({ "10", "100", "1000", "10000", "100000", "1000000" })
+        public long iterations;
+
     }
 
+    public static BinaryOperator<Integer> REDUCE = (a, b) -> a + b;
+    public static Function<Integer, Integer> MAP = f -> f + 10;
+    public static UnaryOperator<Integer> ITERATOR = f -> f + 1;
+
+    private void normalLambda(final long times) {
+        Stream.iterate(0, f -> f + 1).limit(times).map(f -> f + 10).reduce(0, (a, b) -> a + b);
+    }
+
+    private void parametersLambda(final long times, final UnaryOperator<Integer> iterator,
+            final Function<Integer, Integer> map, final BinaryOperator<Integer> reduce) {
+        Stream.iterate(0, iterator).limit(times).map(map).reduce(0, reduce);
+    }
+
+    private void constantLambda(final long times) {
+        Stream.iterate(0, ITERATOR).limit(times).map(MAP).reduce(0, REDUCE);
+    }
+
+    @Benchmark
+    public void testNormal(final ExecutionPlan plan) {
+        normalLambda(plan.iterations);
+    }
+
+    @Benchmark
+    public void testParameters(final ExecutionPlan plan) {
+        parametersLambda(plan.iterations, f -> f + 1, f -> f + 10, (a, b) -> a + b);
+    }
+
+    @Benchmark
+    public void testConstant(final ExecutionPlan plan) {
+        constantLambda(plan.iterations);
+    }
 }
