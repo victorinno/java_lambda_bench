@@ -46,7 +46,7 @@ import org.openjdk.jmh.annotations.Warmup;
 @Fork(value = 1, warmups = 1)
 @Warmup(iterations = 2)
 @Measurement(iterations = 3)
-@BenchmarkMode(Mode.All)
+@BenchmarkMode(Mode.Throughput)
 public class MyBenchmark {
 
     public static BinaryOperator<Integer> REDUCE = (a, b) -> a + b;
@@ -66,6 +66,16 @@ public class MyBenchmark {
         Stream.iterate(0, ITERATOR).limit(times).map(MAP).reduce(0, REDUCE);
     }
 
+    private void pureJava(final long times) {
+        int val = 0;
+        int sum = 0;
+        for (long i = 0; i < times; i++) {
+            int calc = val + 10;
+            sum += calc;
+            val += 1;
+        }
+    }
+
     @Benchmark
     public void testNormal(final ExecutionPlan plan) {
         normalLambda(plan.iterations);
@@ -79,5 +89,10 @@ public class MyBenchmark {
     @Benchmark
     public void testConstant(final ExecutionPlan plan) {
         constantLambda(plan.iterations);
+    }
+
+    @Benchmark
+    public void testPureJava(final ExecutionPlan plan) {
+        pureJava(plan.iterations);
     }
 }

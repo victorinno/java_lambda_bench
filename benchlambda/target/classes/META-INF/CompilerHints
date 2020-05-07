@@ -6,3 +6,4 @@ dontinline,*.*_thrpt_jmhStub
 inline,com/github/victorinno/benchlambda/MyBenchmark.testConstant
 inline,com/github/victorinno/benchlambda/MyBenchmark.testNormal
 inline,com/github/victorinno/benchlambda/MyBenchmark.testParameters
+inline,com/github/victorinno/benchlambda/MyBenchmark.testPureJava

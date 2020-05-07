@@ -2,6 +2,7 @@ META-INF/CompilerHints
 com/github/victorinno/benchlambda/generated/MyBenchmark_jmhType_B1.class
 com/github/victorinno/benchlambda/generated/ExecutionPlan_jmhType_B2.class
 com/github/victorinno/benchlambda/generated/ExecutionPlan_jmhType_B1.class
+com/github/victorinno/benchlambda/generated/MyBenchmark_testPureJava_jmhTest.class
 com/github/victorinno/benchlambda/generated/MyBenchmark_jmhType.class
 com/github/victorinno/benchlambda/ExecutionPlan.class
 com/github/victorinno/benchlambda/generated/ExecutionPlan_jmhType_B3.class
